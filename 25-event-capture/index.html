@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+
+  div {
+    width:100%;
+    padding:100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background:mistyrose;
+  }
+
+  .three {
+    background:coral;
+  }
+</style>
+
+<button class="b1">button1</button>
+<button class="b2">button2</button>
+<script>
+  const divs = document.querySelectorAll('div');
+
+  function logText(e){
+    //console.log(this)
+    console.log(this.classList.value);
+
+    // in bubling mode stops on actually clicked element, cause it goes up !!!
+    // in capturing mode stops on first element from top !!!
+    e.stopPropagation();
+  }
+
+  // bubbling mode {capture: false}
+  divs.forEach(div => div.addEventListener('click', logText));
+
+  // capturing mode
+  //divs.forEach(div => div.addEventListener('click', logText, {capture: true}));
+
+  // ONCE: removes/unbinds listener after its called
+  //divs.forEach(div => div.addEventListener('click', logText, {capture: true, once: true}));
+
+//---- ONCE MOAR----------------------------
+
+  const button1 = document.querySelector('.b1');
+  const button2 = document.querySelector('.b2');
+
+  // interesting: difference between func and arrow, also 2 listener on one button
+  button1.addEventListener('click', function() {
+    console.log('Button %s was clicked', this);
+  });
+  button1.addEventListener('click', () => {
+    console.log('Button %s was clicked', this);
+  });
+
+
+  button2.addEventListener('click', function() {
+    console.log('Button %s was clicked', this);
+  }, {once:true});
+  button2.addEventListener('click', () => {
+    console.log('Button %s was clicked', this);
+  }, {once:true});
+
+</script>
+</body>
+</html>
