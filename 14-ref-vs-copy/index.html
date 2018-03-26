@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // start with strings, numbers and booleans
+    let age = 100;
+    let age2 = age;
+    console.log(age, age2);
+    age = 200;
+    console.log(age, age2);
+
+    let name = 'Wes';
+    let name2 = name;
+    console.log(name, name2);
+    name = 'Wesley';
+    console.log(name, name2);
+
+
+    // Arrays
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    const team1 = players.slice();
+    const team2 = [].concat(players);
+    const team3 = [...players];
+    const team4 = Array.from(players);
+
+
+    // Objects
+    const person = {
+      name: 'Wes Bos',
+      age: 80
+    };
+
+    const captain1 = Object.assign({}, person, {age:99});
+    const captain2 = {...person, age:100};
+
+    console.log(person);
+    console.log(captain1);
+    console.log(captain2);
+
+    // Things to note - ABOVE is only 1 LEVEL DEEP
+    // both for Arrays and Objects. 
+    // lodash has a cloneDeep method, but you should think twice before using it.
+
+    //deep clone trick
+
+    const obj1 = {
+      name: 'Wes Bos',
+      age: 80,
+      nested: {
+        email: 'some@exmaple.com',
+        www: 'www.examle.com'
+      }
+    };
+
+    const obj2 = JSON.parse(JSON.stringify(obj1));
+    obj2.nested.email = 'new@new.com';
+
+    console.log(obj1);
+    console.log(obj2);
+
+  </script>
+
+</body>
+</html>
